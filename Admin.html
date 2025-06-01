@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+
+    <style>
+        .custom-search input:focus {
+            box-shadow: 0 0 5px #BB8536 !important;
+            border-color: #BB8536 !important;
+        }
+
+        .custom-search input {
+            margin-left: 0 !important;
+        }
+
+        .filter-btn {
+            background: transparent !important;
+            border: none !important;
+            padding: 8px 12px;
+        }
+
+        .form-check-input:checked {
+            color: #000000;
+        }
+
+        .form-check-input {
+            border-color: black !important;
+        }
+
+        .custom-checkbox {
+            cursor: pointer;
+        }
+
+        .radiusRight {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .radiusLeft {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .radiusRight2 {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .radiusLeft2 {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        table {
+            border-spacing: 0 13px;
+            border-collapse: separate;
+        }
+
+        .form-check-input {
+            border: 2px solid black !important;
+            background-color: white !important;
+            box-shadow: none !important;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: white !important;
+            border-color: black !important;
+            box-shadow: none !important;
+            position: relative;
+        }
+
+        .form-check-input:checked::before {
+            content: "✔";
+            color: black;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .text-primary,
+        .table-dark {
+            color: black !important;
+            background-color: black !important;
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            width: 50%;
+            margin: 20px auto;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 50 !important;
+        }
+
+        .pagination {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page-item {
+            display: inline-block;
+        }
+
+        .page-link {
+            color: black !important;
+            text-decoration: none;
+            background-color: transparent;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: background 0.3s;
+            border: none;
+            margin-bottom: 40px;
+        }
+
+        .page-link:hover {
+            background-color: lightgray !important;
+        }
+
+        .page-link:focus {
+            box-shadow: none !important;
+            outline: none;
+        }
+
+        .page-item.active .page-link {
+            background-color: black !important;
+            color: white !important;
+        }
+
+        hr {
+            border: 1px solid black;
+            margin: 1rem 0;
+        }
+
+        .status {
+            cursor: default;
+        }
+
+        .details-container {
+            display: none;
+            position: absolute;
+            width: 380px;
+            position: absolute;
+            background: white;
+            border: 2px solid red;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            z-index: 10;
+            border-radius: 8px;
+        }
+
+        .details-container-filter {
+            display: none;
+            position: absolute;
+            width: 400px;
+            position: absolute;
+            background: white;
+            border: 2px solid black;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            z-index: 10;
+            border-radius: 15px;
+            left: 12px;
+            top: 250px;
+        }
+
+        .details-container .header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: red;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background-color: #f0eff6;
+        }
+
+        body {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .no-shadow {
+            box-shadow: none !important;
+        }
+
+        .custom-add-container {
+            /* Initially hidden */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 51 !important;
+        }
+
+        #detailsDiv3 {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 10px 20px 20px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            min-width: 300px;
+            z-index: 60 !important;
+        }
+
+        #detailsDiv3 {
+            transition: all 0.5s ease-out;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+
+        #tableContainer {
+            position: relative;
+        }
+
+        .custom-add-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            /* border: 2px solid black; */
+            width: 60%;
+        }
+
+        .custom-add-input {
+            width: 50%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .custom-add-button {
+            background-color: #d7995e;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+        }
+
+        .custom-add-button:hover {
+            background-color: #6A4028;
+        }
+
+        .custom-add-textarea {
+            width: 100%;
+            height: 200px;
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            text-align: right;
+            outline: none;
+        }
+
+        .custom-add-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: red;
+        }
+
+        .clickable {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .clickable:hover {
+            background-color: #e9ecef;
+        }
+
+        .clickable.selected {
+            background-color: #d7995e;
+            color: white;
+            border-color: #d7995e;
+        }
+
+        .submit-section {
+            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            padding-top: 15px;
+        }
+
+        .btn-apply {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 10px 30px;
+            font-weight: bold;
+        }
+
+        .btn-reset {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            padding: 10px 30px;
+            margin-left: 10px;
+        }
+
+
+        .btnShadow {
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
+        }
+
+        .no-resize {
+            resize: none;
+        }
+
+        .custom-textarea {
+            height: 100px;
+            resize: none;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .custom-textarea:focus {
+            box-shadow: 0 0 5px 2px rgba(187, 133, 54, 0.5);
+            border-color: #BB8536;
+        }
+
+        .btn-custom1:focus,
+        .btn-custom1:active {
+            outline: none !important;
+            box-shadow: 0 0 0px 3px rgba(187, 133, 54, 0.5) !important;
+            border-color: #BB8536 !important;
+        }
+
+        .btn-custom2:focus,
+        .btn-custom2:active {
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(30, 164, 18, 0.5) !important;
+            border-color: #1EA412 !important;
+        }
+
+        .btn-custom3:focus,
+        .btn-custom3:active {
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.5) !important;
+            border-color: #FF0000 !important;
+        }
+
+        thead th {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        tbody tr {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        td.radiusRight {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 63px;
+        }
+
+        .table-warning td {
+            background: rgba(187, 133, 54, 0.15) !important;
+        }
+
+        .activeFilter {
+            background: #BB8536 !important;
+        }
+
+        .custom-width {
+            width: 100%;
+        }
+
+
+
+
+
+
+
+
+
+        /* Add ِAdministration */
+
+
+
+
+        .adminstration-form {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-form-content {
+            padding: 40px 0px 20px;
+            border-radius: 15px;
+            width: 40%;
+        }
+
+        .adminstration-form .admin-form-content form {
+            padding: 0px 48px;
+        }
+
+
+
+
+        .btn-custom4 {
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        .btn-custom4:focus,
+        .btn-custom4:active,
+        .btn-custom4:focus:active {
+            box-shadow: none !important;
+            outline: none !important;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) !important;
+        }
+
+
+
+
+
+
+
+
+
+
+        /* Add Student */
+
+        .Form-Add-Student {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .addStudent-form-content {
+
+            padding: 40px 70px 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+
+        }
+
+
+        .close-form {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            color: red;
+        }
+
+        .Form-Add-Student .row input {
+            border-radius: 10px;
+        }
+
+
+        .submit-form {
+            background-color: #BB8536;
+            border: none;
+            padding: 5px;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: 0.3s;
+            color: rgb(255, 255, 255);
+        }
+
+        .submit-form:hover {
+            color: #fff;
+        }
+
+        form .input-boxshadow:focus {
+            box-shadow: 0 0 5px #BB8536 !important;
+            border-color: #BB8536 !important;
+        }
+
+
+
+
+
+        .custom-btn-delete-note {
+            background-color: transparent;
+            transition: all 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;
+        }
+
+        .custom-btn-delete-note:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(255, 0, 0, 0.15);
+        }
+
+        .custom-btn-delete-note:active {
+            transform: translateY(0);
+            box-shadow: none;
+            background-color: rgba(255, 0, 0, 0.15);
+        }
+
+        .custom-btn-delete-note svg {
+            transition: transform 0.2s ease;
+        }
+
+        .custom-btn-delete-note:hover svg {
+            transform: scale(1.1);
+        }
+
+
+
+
+        .notes-container,
+        .extra-info {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .notes-container.slide-out {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+
+
+        .table-responsive {
+            overflow-x: auto;
+            overflow-y: hidden !important;
+        }
+
+
+
+
+        /*  mediaquery -> Add Student && Add Administration  */
+        @media (max-width: 768px) {
+            .admin-form-content {
+                width: 60%;
+            }
+
+            .addStudent-form-content {
+                width: 70%;
+            }
+        }
+
+
+
+
+
+        @media (min-width: 768px) {
+            .custom-width {
+                width: 75%;
+            }
+
+
+        }
+
+        @media (max-width: 576px) {
+            .disabled-sm {
+                pointer-events: none;
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .radiusRight {
+                height: 90px !important;
+            }
+
+            .custom-add-card {
+                width: 80%;
+            }
+
+            .admin-form-content {
+                width: 80%;
+            }
+
+            .add-gap1 {
+                gap: 15px !important;
+                margin-bottom: 5px !important;
+            }
+
+            .spacing-margin {
+                margin-bottom: 10px;
+            }
+
+            .spacing-padding {
+                padding: 40px 30px 15px;
+            }
+
+            .Logo {
+                height: 120px !important;
+                width: 120px !important;
+                margin-right: 7px !important;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .animate__fadeInUp {
+                animation-name: fadeInUpMobile !important;
+            }
+
+            .animate__fadeInLeft {
+                animation-name: fadeInLeftMobile !important;
+            }
+
+            .animate__fadeInRight {
+                animation-name: fadeInRightMobile !important;
+            }
+        }
+
+
+        @keyframes fadeInUpMobile {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 20px, 0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes fadeInLeftMobile {
+            from {
+                opacity: 0;
+                transform: translate3d(-20px, 0, 0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes fadeInRightMobile {
+            from {
+                opacity: 0;
+                transform: translate3d(20px, 0, 0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container position-relative">
+        <div class="d-flex justify-content-between align-items-center p-3">
+            <div class="d-flex align-items-center animate__animated animate__fadeInRight animate-delay-3s">
+                <div style="margin-right: -40px;">
+                    <img src="./img/Logo.png" alt="Logo" class="img-fluid Logo"
+                        style="height: 150px; width: 150px; margin-left: 10px;">
+                </div>
+                <div class="text-center flex-grow-1">
+                    <h4 class="text-end">اخلاء طرف</h4>
+                    <h5 class="text-end">الحاسبات و الذكاء الاصطناعي
+                    </h5>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start align-items-start gap-2 text-start animate__animated animate__fadeInLeft animate-delay-5s"
+                style="margin-left: -25px;">
+                <button class="border-0 bg-transparent text-danger d-flex flex-column gap-3 align-items-center">
+                    <svg width="22" height="25" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.7504 1.70745C10.3598 1.56959 10.1549 1.14119 10.2928 0.750589C10.4306 0.35999 10.859 0.155103 11.2496 0.292962L11.9545 0.54175C13.208 0.984138 14.2082 1.33715 14.9829 1.71299C15.7834 2.10137 16.4108 2.54467 16.8776 3.20444C17.3444 3.86422 17.5536 4.60339 17.6534 5.48754C17.75 6.34313 17.75 7.40382 17.75 8.73306V11.2673C17.75 12.5966 17.75 13.6573 17.6534 14.5129C17.5536 15.397 17.3444 16.1362 16.8776 16.796C16.4108 17.4557 15.7834 17.899 14.9829 18.2874C14.2082 18.6633 13.208 19.0163 11.9545 19.4587L11.2496 19.7074C10.859 19.8453 10.4306 19.6404 10.2928 19.2498C10.1549 18.8592 10.3598 18.4308 10.7504 18.293L11.4129 18.0591C12.7184 17.5984 13.6385 17.2725 14.3281 16.9379C15.0007 16.6116 15.3853 16.3082 15.6531 15.9296C15.9209 15.551 16.0791 15.0874 16.1629 14.3446C16.2489 13.5829 16.25 12.6068 16.25 11.2224V8.77797C16.25 7.39359 16.2489 6.41753 16.1629 5.65581C16.0791 4.91303 15.9209 4.44937 15.6531 4.0708C15.3853 3.69224 15.0007 3.38882 14.3281 3.06254C13.6385 2.72794 12.7184 2.40204 11.4129 1.94129L10.7504 1.70745Z"
+                            fill="#FF0000" />
+                        <path
+                            d="M2.97726 6.96243C3.27428 6.67373 3.74911 6.68048 4.03781 6.9775C4.32651 7.27453 4.31977 7.74935 4.02274 8.03806C3.86115 8.19512 3.60404 8.39735 3.3593 8.58958L3.30235 8.6343C3.05663 8.82721 2.79386 9.0335 2.54522 9.24418L2.53807 9.25024L11 9.25024C11.4142 9.25024 11.75 9.58603 11.75 10.0002C11.75 10.4145 11.4142 10.7502 11 10.7502L2.53807 10.7502L2.54522 10.7563C2.79384 10.967 3.05659 11.1732 3.3023 11.3661L3.35931 11.4109C3.60404 11.6031 3.86115 11.8054 4.02274 11.9624C4.31977 12.2511 4.32651 12.726 4.03781 13.023C3.74911 13.32 3.27428 13.3268 2.97726 13.0381C2.886 12.9494 2.70419 12.8037 2.43276 12.5905L2.37281 12.5435C2.13068 12.3534 1.8466 12.1304 1.57551 11.9007C1.28495 11.6545 0.983158 11.3789 0.748535 11.1035C0.630962 10.9654 0.514992 10.8098 0.425415 10.6424C0.33902 10.481 0.25 10.2585 0.25 10.0002C0.25 9.74196 0.33902 9.51951 0.425415 9.35807C0.514992 9.19068 0.630962 9.03508 0.748535 8.89703C0.983158 8.62156 1.28495 8.34598 1.57551 8.09978C1.84662 7.87005 2.13068 7.64708 2.37282 7.45702L2.43276 7.40995C2.70419 7.19676 2.886 7.05114 2.97726 6.96243Z"
+                            fill="#FF0000" />
+                    </svg>
+                    <span style="font-size: 14px;">تسجيل الخروج</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-1 me-2">
+            <div class="row">
+
+                <div
+                    class="col-lg-3 col-md-5 d-flex justify-content-between bg-light btnShadow rounded-4 mb-2 mb-lg-0 text-end animate__animated animate__fadeInRight animate-delay-3s">
+                    <div class="d-flex align-items-center ms-2 px-2 py-2"
+                        style="color: #BB8536; background-color: #f8f9fa; border-radius: 0.375rem;">
+                        <i class="bi bi-people fs-5 ms-2"></i>
+                        <span class="ms-1" style="white-space: nowrap; font-weight: normal;">الطلاب</span>
+                    </div>
+                    <button class="btn btn-light px-2 py-2 d-flex align-items-center" onclick="showFormAdministration()"
+                        style="color: #000000;opacity: 0.5;">
+                        <svg width="22" height="22" style="margin-left: 10px;" viewBox="0 0 22 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M13.25 12C13.25 11.5858 13.5858 11.25 14 11.25H16C16.4142 11.25 16.75 11.5858 16.75 12C16.75 12.4142 16.4142 12.75 16 12.75H14C13.5858 12.75 13.25 12.4142 13.25 12Z"
+                                fill="#161616" />
+                            <path
+                                d="M13.25 15C13.25 14.5858 13.5858 14.25 14 14.25H16C16.4142 14.25 16.75 14.5858 16.75 15C16.75 15.4142 16.4142 15.75 16 15.75H14C13.5858 15.75 13.25 15.4142 13.25 15Z"
+                                fill="#161616" />
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M1 20.25C0.585786 20.25 0.25 20.5858 0.25 21C0.25 21.4142 0.585786 21.75 1 21.75H21C21.4142 21.75 21.75 21.4142 21.75 21C21.75 20.5858 21.4142 20.25 21 20.25H20.75V11C20.75 10.3633 20.7178 9.80098 20.6128 9.32323C20.506 8.83699 20.3139 8.39172 19.9611 8.03892C19.6083 7.68612 19.163 7.49401 18.6768 7.38719C18.199 7.28223 17.6367 7.25 17 7.25H14.75V4C14.75 3.36327 14.7178 2.80099 14.6128 2.32323C14.506 1.83699 14.3139 1.39172 13.9611 1.03892C13.6083 0.686117 13.163 0.494005 12.6768 0.387186C12.199 0.282234 11.6367 0.25 11 0.25H5C4.36327 0.25 3.80098 0.282234 3.32323 0.387186C2.83699 0.494005 2.39172 0.686115 2.03892 1.03892C1.68612 1.39172 1.49401 1.83699 1.38719 2.32323C1.28223 2.80098 1.25 3.36327 1.25 4V20.25H1ZM14.25 20.25V18C14.25 17.5858 14.5858 17.25 15 17.25C15.4142 17.25 15.75 17.5858 15.75 18V20.25H19.25V11C19.25 10.3957 19.2175 9.96252 19.1477 9.64508C19.0799 9.33614 18.9874 9.18653 18.9004 9.09958C18.8135 9.01263 18.6639 8.92012 18.3549 8.85225C18.0375 8.78252 17.6043 8.75 17 8.75H13C12.3957 8.75 11.9625 8.78252 11.6451 8.85225C11.3361 8.92012 11.1865 9.01263 11.0996 9.09958C11.0126 9.18653 10.9201 9.33614 10.8523 9.64508C10.7825 9.96251 10.75 10.3957 10.75 11V20.25H14.25ZM2.75 12.25H5C5.41421 12.25 5.75 12.5858 5.75 13C5.75 13.4142 5.41421 13.75 5 13.75H2.75V20.25H9.25V11C9.25 10.3633 9.28223 9.80098 9.38719 9.32323C9.49401 8.83699 9.68612 8.39172 10.0389 8.03892C10.3917 7.68612 10.837 7.49401 11.3232 7.38719C11.801 7.28223 12.3633 7.25 13 7.25H13.25V4C13.25 3.39573 13.2175 2.96251 13.1477 2.64508C13.0799 2.33614 12.9874 2.18653 12.9004 2.09958C12.8135 2.01263 12.6639 1.92012 12.3549 1.85225C12.0375 1.78252 11.6043 1.75 11 1.75H5C4.39573 1.75 3.96252 1.78252 3.64508 1.85225C3.33614 1.92012 3.18653 2.01263 3.09958 2.09958C3.01263 2.18653 2.92012 2.33614 2.85225 2.64508C2.78252 2.96251 2.75 3.39573 2.75 4V4.25H5C5.41421 4.25 5.75 4.58579 5.75 5C5.75 5.41421 5.41421 5.75 5 5.75H2.75V8.25H5C5.41421 8.25 5.75 8.58579 5.75 9C5.75 9.41421 5.41421 9.75 5 9.75H2.75V12.25Z"
+                                fill="#161616" />
+                        </svg>
+                        <span class="ms-1" style="white-space: nowrap;">إضافة إدارة</span>
+                    </button>
+                </div>
+
+                <div
+                    class="col-lg-9 col-md-7 d-flex justify-content-end text-end animate__animated animate__fadeInLeft animate-delay-3s">
+                    <div class="position-relative custom-width custom-search">
+                        <i
+                            class="bi bi-search position-absolute top-50 end-0 translate-middle-y text-secondary pe-3"></i>
+                        <input type="text" class="form-control pe-5 ps-5 p-3 rounded-4 text-end"
+                            placeholder="البحث عن الطلاب...">
+                        <button
+                            class="btn btn-light position-absolute top-50 start-0 translate-middle-y ps-3 border-0 filter-btn disabled-sm"
+                            type="button" onclick="toggleDetails2()">
+                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M14.75 2.47825C14.75 2.26399 14.75 2.06711 14.7387 1.90179C14.7266 1.72415 14.699 1.52881 14.6168 1.33031C14.4392 0.901507 14.0985 0.560828 13.6697 0.383213C13.4712 0.30099 13.2759 0.273378 13.0982 0.261257C12.9329 0.249978 12.7361 0.249989 12.5218 0.250001H12.4782C12.264 0.249989 12.0671 0.249978 11.9018 0.261257C11.7241 0.273378 11.5288 0.30099 11.3303 0.383213C10.9015 0.560828 10.5608 0.901507 10.3832 1.33031C10.301 1.52881 10.2734 1.72415 10.2613 1.90179C10.2541 2.00643 10.2515 2.12369 10.2505 2.25H1C0.585786 2.25 0.25 2.58579 0.25 3C0.25 3.41421 0.585786 3.75 1 3.75H10.2505C10.2515 3.87632 10.2541 3.99358 10.2613 4.09821C10.2734 4.27585 10.301 4.4712 10.3832 4.6697C10.5608 5.0985 10.9015 5.43918 11.3303 5.61679C11.5288 5.69902 11.7241 5.72663 11.9018 5.73875C12.0671 5.75003 12.264 5.75002 12.4782 5.75H12.5218C12.736 5.75002 12.9329 5.75003 13.0982 5.73875C13.2759 5.72663 13.4712 5.69902 13.6697 5.61679C14.0985 5.43918 14.4392 5.0985 14.6168 4.6697C14.699 4.4712 14.7266 4.27586 14.7387 4.09821C14.75 3.9329 14.75 3.73607 14.75 3.52182V2.47825ZM11.75 3.00171V3.5C11.75 3.74323 11.7504 3.8881 11.7578 3.9961C11.7623 4.06293 11.7684 4.09134 11.7703 4.09869C11.7956 4.15753 11.8425 4.20442 11.9013 4.2297C11.9087 4.23157 11.9371 4.23767 12.0039 4.24223C12.1119 4.2496 12.2568 4.25 12.5 4.25C12.7432 4.25 12.8881 4.2496 12.9961 4.24223C13.0629 4.23767 13.0913 4.23157 13.0987 4.2297C13.1575 4.20442 13.2044 4.15753 13.2297 4.09869C13.2316 4.09134 13.2377 4.06294 13.2422 3.9961C13.2496 3.8881 13.25 3.74323 13.25 3.5V2.5C13.25 2.25677 13.2496 2.11191 13.2422 2.0039C13.2377 1.93707 13.2316 1.90867 13.2297 1.90131C13.2044 1.84248 13.1575 1.79558 13.0987 1.77031C13.0913 1.76844 13.0629 1.76234 12.9961 1.75778C12.8881 1.75041 12.7432 1.75 12.5 1.75C12.2568 1.75 12.1119 1.75041 12.0039 1.75778C11.9371 1.76234 11.9087 1.76844 11.9013 1.77031C11.8425 1.79558 11.7956 1.84248 11.7703 1.90131C11.7684 1.90867 11.7623 1.93707 11.7578 2.0039C11.7504 2.11191 11.75 2.25677 11.75 2.5V2.99829L11.75 3L11.75 3.00171Z"
+                                    fill="#161616" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M8.25054 18.75H1C0.585787 18.75 0.25 18.4142 0.25 18C0.25 17.5858 0.585787 17.25 1 17.25H8.25054C8.2515 17.1237 8.25411 17.0064 8.26125 16.9018C8.27337 16.7241 8.30099 16.5288 8.38321 16.3303C8.56082 15.9015 8.9015 15.5608 9.3303 15.3832C9.52881 15.301 9.72415 15.2734 9.90179 15.2613C10.0671 15.25 10.264 15.25 10.4782 15.25H10.5218C10.736 15.25 10.9329 15.25 11.0982 15.2613C11.2759 15.2734 11.4712 15.301 11.6697 15.3832C12.0985 15.5608 12.4392 15.9015 12.6168 16.3303C12.699 16.5288 12.7266 16.7241 12.7387 16.9018C12.75 17.0671 12.75 17.2639 12.75 17.4782V18.5218C12.75 18.736 12.75 18.9329 12.7387 19.0982C12.7266 19.2759 12.699 19.4712 12.6168 19.6697C12.4392 20.0985 12.0985 20.4392 11.6697 20.6168C11.4712 20.699 11.2759 20.7266 11.0982 20.7387C10.9329 20.75 10.736 20.75 10.5218 20.75H10.4782C10.264 20.75 10.0671 20.75 9.90179 20.7387C9.72415 20.7266 9.52881 20.699 9.3303 20.6168C8.9015 20.4392 8.56082 20.0985 8.38321 19.6697C8.30099 19.4712 8.27337 19.2759 8.26125 19.0982C8.25411 18.9936 8.2515 18.8763 8.25054 18.75ZM9.75 18.5V18.0017L9.75 18L9.75 17.9983V17.5C9.75 17.2568 9.7504 17.1119 9.75777 17.0039C9.76233 16.9371 9.76843 16.9087 9.7703 16.9013C9.79558 16.8425 9.84247 16.7956 9.90131 16.7703C9.90866 16.7684 9.93707 16.7623 10.0039 16.7578C10.1119 16.7504 10.2568 16.75 10.5 16.75C10.7432 16.75 10.8881 16.7504 10.9961 16.7578C11.0629 16.7623 11.0913 16.7684 11.0987 16.7703C11.1575 16.7956 11.2044 16.8425 11.2297 16.9013C11.2316 16.9087 11.2377 16.9371 11.2422 17.0039C11.2496 17.1119 11.25 17.2568 11.25 17.5V18.5C11.25 18.7432 11.2496 18.8881 11.2422 18.9961C11.2377 19.0629 11.2316 19.0913 11.2297 19.0987C11.2044 19.1575 11.1575 19.2044 11.0987 19.2297C11.0913 19.2316 11.0629 19.2377 10.9961 19.2422C10.8881 19.2496 10.7432 19.25 10.5 19.25C10.2568 19.25 10.1119 19.2496 10.0039 19.2422C9.93707 19.2377 9.90867 19.2316 9.90131 19.2297C9.84247 19.2044 9.79558 19.1575 9.7703 19.0987C9.76843 19.0913 9.76233 19.0629 9.75777 18.9961C9.7504 18.8881 9.75 18.7432 9.75 18.5Z"
+                                    fill="#161616" />
+                                <path
+                                    d="M19 18.75C19.4142 18.75 19.75 18.4142 19.75 18C19.75 17.5858 19.4142 17.25 19 17.25H15C14.5858 17.25 14.25 17.5858 14.25 18C14.25 18.4142 14.5858 18.75 15 18.75H19Z"
+                                    fill="#161616" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M19.75 10.5C19.75 10.9142 19.4142 11.25 19 11.25H9.74945C9.7485 11.3763 9.74588 11.4936 9.73874 11.5982C9.72662 11.7759 9.69901 11.9712 9.61679 12.1697C9.43917 12.5985 9.09849 12.9392 8.66969 13.1168C8.47119 13.199 8.27585 13.2266 8.09821 13.2387C7.93288 13.25 7.73603 13.25 7.52176 13.25H7.47824C7.26396 13.25 7.06711 13.25 6.90179 13.2387C6.72415 13.2266 6.52881 13.199 6.3303 13.1168C5.9015 12.9392 5.56082 12.5985 5.38321 12.1697C5.30099 11.9712 5.27337 11.7759 5.26125 11.5982C5.24997 11.4329 5.24998 11.236 5.25 11.0218V9.97824C5.24998 9.76397 5.24997 9.56712 5.26125 9.40179C5.27337 9.22415 5.30099 9.02881 5.38321 8.83031C5.56082 8.40151 5.9015 8.06083 6.3303 7.88321C6.52881 7.80099 6.72415 7.77338 6.90179 7.76126C7.06711 7.74998 7.26396 7.74999 7.47824 7.75H7.52175C7.73603 7.74999 7.93288 7.74998 8.09821 7.76126C8.27585 7.77338 8.47119 7.80099 8.66969 7.88321C9.09849 8.06083 9.43917 8.40151 9.61679 8.83031C9.69901 9.02881 9.72662 9.22415 9.73874 9.40179C9.74588 9.50643 9.7485 9.62369 9.74945 9.75H19C19.4142 9.75 19.75 10.0858 19.75 10.5ZM8.09869 9.27031C8.15752 9.29558 8.20442 9.34248 8.22969 9.40131C8.23156 9.40867 8.23766 9.43707 8.24222 9.5039C8.24959 9.61191 8.25 9.75677 8.25 10V11C8.25 11.2432 8.24959 11.3881 8.24222 11.4961C8.23766 11.5629 8.23156 11.5913 8.22969 11.5987C8.20442 11.6575 8.15752 11.7044 8.09869 11.7297C8.09133 11.7316 8.06293 11.7377 7.9961 11.7422C7.88809 11.7496 7.74323 11.75 7.5 11.75C7.25677 11.75 7.1119 11.7496 7.0039 11.7422C6.93707 11.7377 6.90867 11.7316 6.90131 11.7297C6.84248 11.7044 6.79558 11.6575 6.7703 11.5987C6.76843 11.5913 6.76233 11.5629 6.75777 11.4961C6.7504 11.3881 6.75 11.2432 6.75 11V10C6.75 9.75677 6.7504 9.61191 6.75777 9.5039C6.76233 9.43707 6.76843 9.40867 6.7703 9.40131C6.79558 9.34248 6.84247 9.29558 6.90131 9.27031C6.90866 9.26844 6.93706 9.26234 7.0039 9.25778C7.1119 9.25041 7.25677 9.25 7.5 9.25C7.74323 9.25 7.88809 9.25041 7.9961 9.25778C8.06293 9.26234 8.09133 9.26844 8.09869 9.27031Z"
+                                    fill="#161616" />
+                                <path
+                                    d="M19 3.75C19.4142 3.75 19.75 3.41421 19.75 3C19.75 2.58579 19.4142 2.25 19 2.25H17C16.5858 2.25 16.25 2.58579 16.25 3C16.25 3.41421 16.5858 3.75 17 3.75H19Z"
+                                    fill="#161616" />
+                                <path
+                                    d="M3.75 10.5C3.75 10.9142 3.41421 11.25 3 11.25H1C0.585786 11.25 0.25 10.9142 0.25 10.5C0.25 10.0858 0.585786 9.75 1 9.75H3C3.41421 9.75 3.75 10.0858 3.75 10.5Z"
+                                    fill="#161616" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="details-container-filter" id="detailsDiv2">
+                    <form id="filterForm">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="header">مرشحات البحث</h6>
+                                <i class="fa-regular fa-circle-xmark close-btn" onclick="closeDetails2()"></i>
+                            </div>
+                            <div class="detail-item">
+                                <div class="col ms-4 me-1">
+                                    <span>الحالة</span>
+                                    <hr>
+                                </div>
+                                <div class="col ms-4">
+                                    <span>الفرقة</span>
+                                    <hr>
+                                </div>
+                                <div class="col ms-4">
+                                    <span>الكلية</span>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="detail-item ms-2">
+                                <div class="col-4 text-center me-2">
+                                    <span class="row mb-2 clickable ms-4" data-filter="status" data-value="مكتمل"
+                                        onclick="toggleFilter(this)">مكتمل</span>
+                                    <span class="row clickable ms-4" data-filter="status" data-value="غير مكتمل"
+                                        onclick="toggleFilter(this)">غير مكتمل</span>
+                                </div>
+                                <div class="col-4 mt-1">
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <span class="clickable" data-filter="grade" data-value="1"
+                                                onclick="toggleFilter(this)">1</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="clickable" data-filter="grade" data-value="3"
+                                                onclick="toggleFilter(this)">3</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="clickable" data-filter="grade" data-value="2"
+                                                onclick="toggleFilter(this)">2</span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="clickable" data-filter="grade" data-value="4"
+                                                onclick="toggleFilter(this)">4</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center me-2">
+                                    <span class="row mb-2 clickable ms-5" data-filter="college" data-value="الحاسبات"
+                                        onclick="toggleFilter(this)">الحاسبات</span>
+                                    <span class="row clickable ms-5" data-filter="college" data-value="طب"
+                                        onclick="toggleFilter(this)">طب</span>
+                                </div>
+                            </div>
+
+                            <!-- Hidden inputs to store selected values -->
+                            <input type="hidden" id="selectedStatus" name="Status" value="">
+                            <input type="hidden" id="selectedGrades" name="Grades" value="">
+                            <input type="hidden" id="selectedColleges" name="Colleges" value="">
+
+                            <div class="submit-section">
+                                <button type="button" class="btn btn-success btn-apply" onclick="applyFilters()">تطبيق
+                                    المرشحات</button>
+                                <button type="button" class="btn btn-secondary btn-reset" onclick="resetFilters()">إعادة
+                                    تعيين</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div
+            class="row align-items-center justify-content-start rounded text-end animate__animated animate__fadeInRight animate-delay-3s">
+            <div class="col-auto">
+                <input type="checkbox" id="selectAll" class="form-check-input custom-checkbox no-shadow">
+                <label for="selectAll" class="me-1">تحديد الكل</label>
+            </div>
+
+            <div class="col-auto d-flex gap-md-2 gap-sm-1">
+                <button class="btn btn-custom1 px-2 py-2" style="color: #BB8536;" id="openReport">
+                    <div class="d-flex flex-column flex-md-row align-items-center gap-1">
+                        <span class="me-1 ms-1">
+                            <svg width="20" height="20" viewBox="0 0 22 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="me-1">
+                                <path
+                                    d="M8.56146 8.88441C9.54146 9.46141 10.2705 9.75043 10.9995 9.75043C11.7295 9.75043 12.4585 9.46241 13.4395 8.88441L16.3815 7.14438C16.7385 6.93438 16.8564 6.47442 16.6454 6.11742C16.4354 5.76042 15.9755 5.64236 15.6185 5.85336L12.6775 7.59242C11.2035 8.45942 10.7955 8.45942 9.32348 7.59242L6.38148 5.85238C6.02548 5.64138 5.56543 5.76035 5.35443 6.11635C5.14343 6.47235 5.2625 6.9324 5.61849 7.1434L8.56146 8.88441Z"
+                                    fill="#BB8536" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M8.0802 19.2084C9.0622 19.2334 10.0312 19.2465 11.0002 19.2465C11.9692 19.2465 12.9382 19.2334 13.9202 19.2084L13.9216 19.2084C17.1587 19.1264 18.9424 19.0812 20.2872 17.7374C21.6292 16.3844 21.6662 14.6484 21.7332 11.4954C21.7542 10.4884 21.7542 9.51042 21.7332 8.50342C21.6662 5.35042 21.6292 3.6134 20.2842 2.2584C18.9412 0.917398 17.1573 0.871453 13.9193 0.789453C11.9543 0.739453 10.0442 0.739453 8.07923 0.789453L8.07788 0.789487C4.84073 0.871466 3.05705 0.916636 1.71223 2.26045C0.370234 3.61345 0.333238 5.34944 0.266238 8.50244C0.245238 9.50944 0.245238 10.4874 0.266238 11.4944C0.333238 14.6474 0.370262 16.3845 1.71526 17.7395C3.05826 19.0805 4.8422 19.1264 8.0802 19.2084ZM2.77727 16.6794C1.85627 15.7524 1.82726 14.4074 1.76526 11.4624C1.74426 10.4764 1.74426 9.5184 1.76526 8.5334C1.82726 5.5884 1.85625 4.24446 2.77425 3.31846C3.69317 2.39953 5.07899 2.36441 8.11647 2.28742C10.0565 2.23742 11.9423 2.2374 13.8813 2.2874C16.9193 2.3644 18.3053 2.40041 19.2223 3.31641C20.1433 4.24341 20.1722 5.5884 20.2342 8.5334C20.2552 9.5194 20.2552 10.4774 20.2342 11.4624C20.1722 14.4074 20.1432 15.7514 19.2252 16.6774C18.3064 17.5963 16.9208 17.6314 13.884 17.7084L13.8823 17.7084C11.9423 17.7584 10.0573 17.7584 8.11829 17.7084C5.08029 17.6314 3.69427 17.5954 2.77727 16.6794Z"
+                                    fill="#BB8536" />
+                            </svg>
+                        </span>
+                        إرسال ملاحظات
+                    </div>
+                </button>
+                <button class="btn btn-custom2 mx-2 px-2 py-2" onclick="showFormAddStudent()"
+                    style="display: flex; align-items: center; gap: 5px; border: 2px solid transparent; color: #1EA412;">
+                    <div class="d-flex flex-column flex-md-row align-items-center gap-1">
+                        <span class="me-1 ms-1"
+                            style="border: 2px solid #1EA412; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 4px;">
+                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.75 7C11.75 6.58579 11.4142 6.25 11 6.25C10.5858 6.25 10.25 6.58579 10.25 7V10.25H7C6.58579 10.25 6.25 10.5858 6.25 11C6.25 11.4142 6.58579 11.75 7 11.75H10.25V15C10.25 15.4142 10.5858 15.75 11 15.75C11.4142 15.75 11.75 15.4142 11.75 15V11.75H15C15.4142 11.75 15.75 11.4142 15.75 11C15.75 10.5858 15.4142 10.25 15 10.25H11.75V7Z"
+                                    fill="#1EA412" />
+                            </svg>
+                        </span>
+                        إضافة طالب
+                    </div>
+                </button>
+                <button class="btn btn-custom3 mx-2 px-2 py-2 text-danger">
+                    <div class="d-flex flex-column flex-md-row align-items-center gap-1">
+                        <span class="me-1 ms-1">
+                            <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                    fill="#FF0000" />
+                                <path
+                                    d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                    fill="#FF0000" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                    fill="#FF0000" />
+                            </svg>
+                        </span>
+                        حذف طالب
+                    </div>
+                </button>
+                <button class="btn btn-custom4 mx-2 px-2 py-2" onclick="showTableAdmin2()"
+                    style="display: flex; align-items: center; gap: 5px; border: 2px solid transparent; color: #000000; opacity: 0.8;">
+                    <div class="d-flex flex-column flex-md-row align-items-center gap-1 add-gap1">
+                        <span class="me-1 ms-1"
+                            style="display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 4px;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.25 13C14.25 12.5858 14.5858 12.25 15 12.25H17C17.4142 12.25 17.75 12.5858 17.75 13C17.75 13.4142 17.4142 13.75 17 13.75H15C14.5858 13.75 14.25 13.4142 14.25 13Z"
+                                    fill="#161616" />
+                                <path
+                                    d="M14.25 16C14.25 15.5858 14.5858 15.25 15 15.25H17C17.4142 15.25 17.75 15.5858 17.75 16C17.75 16.4142 17.4142 16.75 17 16.75H15C14.5858 16.75 14.25 16.4142 14.25 16Z"
+                                    fill="#161616" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2 21.25C1.58579 21.25 1.25 21.5858 1.25 22C1.25 22.4142 1.58579 22.75 2 22.75H22C22.4142 22.75 22.75 22.4142 22.75 22C22.75 21.5858 22.4142 21.25 22 21.25H21.75V12C21.75 11.3633 21.7178 10.801 21.6128 10.3232C21.506 9.83699 21.3139 9.39172 20.9611 9.03892C20.6083 8.68612 20.163 8.49401 19.6768 8.38719C19.199 8.28223 18.6367 8.25 18 8.25H15.75V5C15.75 4.36327 15.7178 3.80099 15.6128 3.32323C15.506 2.83699 15.3139 2.39172 14.9611 2.03892C14.6083 1.68612 14.163 1.49401 13.6768 1.38719C13.199 1.28223 12.6367 1.25 12 1.25H6C5.36327 1.25 4.80098 1.28223 4.32323 1.38719C3.83699 1.49401 3.39172 1.68612 3.03892 2.03892C2.68612 2.39172 2.49401 2.83699 2.38719 3.32323C2.28223 3.80098 2.25 4.36327 2.25 5V21.25H2ZM15.25 21.25V19C15.25 18.5858 15.5858 18.25 16 18.25C16.4142 18.25 16.75 18.5858 16.75 19V21.25H20.25V12C20.25 11.3957 20.2175 10.9625 20.1477 10.6451C20.0799 10.3361 19.9874 10.1865 19.9004 10.0996C19.8135 10.0126 19.6639 9.92012 19.3549 9.85225C19.0375 9.78252 18.6043 9.75 18 9.75H14C13.3957 9.75 12.9625 9.78252 12.6451 9.85225C12.3361 9.92012 12.1865 10.0126 12.0996 10.0996C12.0126 10.1865 11.9201 10.3361 11.8523 10.6451C11.7825 10.9625 11.75 11.3957 11.75 12V21.25H15.25ZM3.75 13.25H6C6.41421 13.25 6.75 13.5858 6.75 14C6.75 14.4142 6.41421 14.75 6 14.75H3.75V21.25H10.25V12C10.25 11.3633 10.2822 10.801 10.3872 10.3232C10.494 9.83699 10.6861 9.39172 11.0389 9.03892C11.3917 8.68612 11.837 8.49401 12.3232 8.38719C12.801 8.28223 13.3633 8.25 14 8.25H14.25V5C14.25 4.39573 14.2175 3.96251 14.1477 3.64508C14.0799 3.33614 13.9874 3.18653 13.9004 3.09958C13.8135 3.01263 13.6639 2.92012 13.3549 2.85225C13.0375 2.78252 12.6043 2.75 12 2.75H6C5.39573 2.75 4.96252 2.78252 4.64508 2.85225C4.33614 2.92012 4.18653 3.01263 4.09958 3.09958C4.01263 3.18653 3.92012 3.33614 3.85225 3.64508C3.78252 3.96251 3.75 4.39573 3.75 5V5.25H6C6.41421 5.25 6.75 5.58579 6.75 6C6.75 6.41421 6.41421 6.75 6 6.75H3.75V9.25H6C6.41421 9.25 6.75 9.58579 6.75 10C6.75 10.4142 6.41421 10.75 6 10.75H3.75V13.25Z"
+                                    fill="#161616" />
+                            </svg>
+                        </span>
+                        الإدارات
+                    </div>
+                </button>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <div class="custom-add-container" id="reportContainer">
+            <div class="custom-add-card shadow-sm p-3 mb-4">
+                <div class="d-flex align-items-center position-relative mb-4">
+                    <i class="fa-regular fa-circle-xmark custom-add-close position-absolute end-0" id="closeReport"></i>
+                    <div class="px-2 py-2 mx-auto" style="color: #BB8536;" id="openReport">
+                        <span class="me-1 ms-1">
+                            <svg width="20" height="16" viewBox="0 0 22 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="me-1">
+                                <path
+                                    d="M8.56146 8.88441C9.54146 9.46141 10.2705 9.75043 10.9995 9.75043C11.7295 9.75043 12.4585 9.46241 13.4395 8.88441L16.3815 7.14438C16.7385 6.93438 16.8564 6.47442 16.6454 6.11742C16.4354 5.76042 15.9755 5.64236 15.6185 5.85336L12.6775 7.59242C11.2035 8.45942 10.7955 8.45942 9.32348 7.59242L6.38148 5.85238C6.02548 5.64138 5.56543 5.76035 5.35443 6.11635C5.14343 6.47235 5.2625 6.9324 5.61849 7.1434L8.56146 8.88441Z"
+                                    fill="#BB8536" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M8.0802 19.2084C9.0622 19.2334 10.0312 19.2465 11.0002 19.2465C11.9692 19.2465 12.9382 19.2334 13.9202 19.2084L13.9216 19.2084C17.1587 19.1264 18.9424 19.0812 20.2872 17.7374C21.6292 16.3844 21.6662 14.6484 21.7332 11.4954C21.7542 10.4884 21.7542 9.51042 21.7332 8.50342C21.6662 5.35042 21.6292 3.6134 20.2842 2.2584C18.9412 0.917398 17.1573 0.871453 13.9193 0.789453C11.9543 0.739453 10.0442 0.739453 8.07923 0.789453L8.07788 0.789487C4.84073 0.871466 3.05705 0.916636 1.71223 2.26045C0.370234 3.61345 0.333238 5.34944 0.266238 8.50244C0.245238 9.50944 0.245238 10.4874 0.266238 11.4944C0.333238 14.6474 0.370262 16.3845 1.71526 17.7395C3.05826 19.0805 4.8422 19.1264 8.0802 19.2084ZM2.77727 16.6794C1.85627 15.7524 1.82726 14.4074 1.76526 11.4624C1.74426 10.4764 1.74426 9.5184 1.76526 8.5334C1.82726 5.5884 1.85625 4.24446 2.77425 3.31846C3.69317 2.39953 5.07899 2.36441 8.11647 2.28742C10.0565 2.23742 11.9423 2.2374 13.8813 2.2874C16.9193 2.3644 18.3053 2.40041 19.2223 3.31641C20.1433 4.24341 20.1722 5.5884 20.2342 8.5334C20.2552 9.5194 20.2552 10.4774 20.2342 11.4624C20.1722 14.4074 20.1432 15.7514 19.2252 16.6774C18.3064 17.5963 16.9208 17.6314 13.884 17.7084L13.8823 17.7084C11.9423 17.7584 10.0573 17.7584 8.11829 17.7084C5.08029 17.6314 3.69427 17.5954 2.77727 16.6794Z"
+                                    fill="#BB8536" />
+                            </svg>
+                        </span>
+                        إرسال ملاحظات
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <svg width="18" height="15" viewBox="0 0 23 22" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill="black" stroke="black" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.3803 1.65831C12.8325 0.881105 15.3182 0.249939 16.9998 0.24994C18.5415 0.24994 19.7353 1.48023 20.499 3.00768C21.2852 4.57998 21.7498 6.69961 21.7498 8.99994C21.7498 11.3003 21.2852 13.4199 20.499 14.9922C19.7353 16.5196 18.5415 17.7499 16.9998 17.7499C15.3182 17.7499 12.8325 17.1188 10.3803 16.3416C8.79862 15.8403 7.18928 15.2642 5.74983 14.7204C5.74422 16.6027 6.75739 18.3591 8.41822 19.2733L10.3615 20.343C10.7243 20.5427 10.8566 20.9988 10.6568 21.3617C10.4571 21.7246 10.001 21.8568 9.63813 21.6571L7.69487 20.5874C5.37961 19.3129 4.04638 16.7811 4.27516 14.1525C4.00299 14.0458 3.74151 13.9422 3.49255 13.8427C1.50618 13.0489 0.249795 11.1176 0.249795 8.99994C0.249795 6.88224 1.50618 4.95093 3.49255 4.1572C5.34747 3.41599 7.89793 2.44509 10.3803 1.65831ZM10.8335 3.08821C11.9324 2.73994 12.9951 2.43606 13.9615 2.20628C13.7938 2.45971 13.64 2.72874 13.5005 3.00768C12.7144 4.57998 12.2498 6.69961 12.2498 8.99994C12.2498 11.3003 12.7144 13.4199 13.5005 14.9922C13.64 15.2711 13.7938 15.5402 13.9615 15.7936C12.9951 15.5638 11.9324 15.2599 10.8335 14.9117C8.40075 14.1406 5.88829 13.1847 4.04914 12.4498C2.65225 11.8916 1.7498 10.5256 1.7498 8.99994C1.74979 7.47427 2.65225 6.1083 4.04914 5.55012C5.88829 4.81521 8.40075 3.85926 10.8335 3.08821ZM14.8422 14.3214C15.5262 15.6894 16.3323 16.2499 16.9998 16.2499C17.6672 16.2499 18.4734 15.6894 19.1574 14.3214C19.819 12.9983 20.2498 11.1179 20.2498 8.99994C20.2498 6.88199 19.819 5.00162 19.1574 3.6785C18.4734 2.31051 17.6672 1.74994 16.9998 1.74994C16.3323 1.74994 15.5262 2.31051 14.8422 3.6785C14.1806 5.00162 13.7498 6.88199 13.7498 8.99994C13.7498 11.1179 14.1806 12.9983 14.8422 14.3214Z" />
+                        </svg>
+                        <span class="me-2">الملاحظة موجهة لـ :</span>
+                    </div>
+                    <div class="col-auto">
+                        <input type="checkbox" id="selectAll" class="form-check-input custom-checkbox no-shadow">
+                        <label for="selectAll" class="ms-2 me-1">تحديد الكل</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <textarea class="form-control no-resize mt-2 custom-textarea"
+                        placeholder="الرقم الجامعي الخاص بالطالب المرسل إلية..."></textarea>
+                </div>
+                <div>
+                    <svg width="18" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12.8467 2.2298C15.2273 0.392283 18.3674 -0.0453578 21.1073 0.424962C21.4482 0.48347 21.7049 0.76746 21.7287 1.11247C21.842 2.75368 21.5038 4.03279 20.6118 4.96377C20.0234 5.57794 19.2462 5.98309 18.3491 6.26439C18.3708 6.28981 18.3923 6.31555 18.4136 6.34158C18.7522 6.75628 19.1233 7.36282 19.0361 8.11495C18.9774 8.62122 18.7633 9.00478 18.4441 9.33871C18.1704 9.62494 17.7972 9.89445 17.4026 10.1795L17.3585 10.2113C15.3761 11.6435 13.0782 12.553 10.2154 12.7413C9.71757 13.7043 9.21434 14.8553 8.70505 16.2558C8.56349 16.6451 8.13317 16.8459 7.7439 16.7044C7.35462 16.5628 7.1538 16.1325 7.29536 15.7432C7.94853 13.947 8.60285 12.5173 9.2648 11.3456C9.08533 6.97466 10.5532 4.00003 12.8467 2.2298Z"
+                            fill="#161616" />
+                        <path
+                            d="M10.3002 1.99865C10.301 2.41286 9.96581 2.74925 9.5516 2.75C7.613 2.75349 6.20703 2.78045 5.1294 2.95488C4.0737 3.12576 3.41632 3.42635 2.92161 3.92106C2.38855 4.45413 2.07995 5.17711 1.91722 6.38747C1.75159 7.61941 1.75 9.23929 1.75 11.4997C1.75 13.7602 1.75159 15.38 1.91722 16.612C2.07995 17.8223 2.38855 18.5453 2.92161 19.0784C3.45468 19.6115 4.17766 19.92 5.38802 20.0828C6.61996 20.2484 8.23984 20.25 10.5003 20.25C12.7607 20.25 14.3806 20.2484 15.6125 20.0828C16.8229 19.92 17.5459 19.6115 18.0789 19.0784C18.5736 18.5837 18.8742 17.9263 19.0451 16.8706C19.2196 15.793 19.2465 14.387 19.25 12.4484C19.2507 12.0342 19.5871 11.699 20.0014 11.6998C20.4156 11.7005 20.7507 12.0369 20.75 12.4511C20.7466 14.3649 20.7228 15.8938 20.5259 17.1103C20.3254 18.3486 19.9341 19.3445 19.1396 20.139C18.2814 20.9973 17.1891 21.3843 15.8124 21.5694C14.469 21.75 12.7482 21.75 10.5575 21.75H10.4431C8.25235 21.75 6.5316 21.75 5.18815 21.5694C3.81145 21.3843 2.71917 20.9973 1.86095 20.139C1.00274 19.2808 0.615691 18.1885 0.430599 16.8119C0.249976 15.4684 0.249987 13.7477 0.25 11.5569V11.4426C0.249987 9.25178 0.249976 7.53105 0.430599 6.1876C0.615691 4.8109 1.00274 3.71862 1.86095 2.8604C2.65546 2.0659 3.65135 1.6746 4.88972 1.47415C6.10617 1.27725 7.63507 1.25345 9.5489 1.25C9.96311 1.24926 10.2995 1.58444 10.3002 1.99865Z"
+                            fill="#161616" />
+                    </svg>
+                    <span>الملاحظة المرسلة :</span>
+                </div>
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <textarea style="height: 200px; width: 100%; padding-bottom: 40px;"
+                        class="form-control no-resize mt-2 custom-textarea" placeholder="كتابة النص..."></textarea>
+
+                    <div style="position: absolute; bottom: 10px; left: 10px; display: flex; align-items: center; gap: 5px; 
+                        color: #0066FF;; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                        <svg width="18" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.5973 1.54257C20.1299 1.03918 19.397 0.850627 18.6968 0.783141C17.9611 0.712231 17.08 0.759392 16.1313 0.883817C14.2288 1.13337 11.9302 1.71102 9.72221 2.42176C7.51281 3.13295 5.35914 3.98865 3.74626 4.80847C2.94355 5.21648 2.24734 5.62932 1.74121 6.02586C1.48919 6.22331 1.25922 6.436 1.08623 6.66237C0.921234 6.87829 0.747637 7.18549 0.750024 7.55582C0.756292 8.5279 1.41829 9.2149 2.12327 9.67603C2.84284 10.1467 3.77998 10.5014 4.71161 10.7792C5.65324 11.06 6.64346 11.2776 7.49473 11.454C7.55052 11.4655 7.66203 11.4886 7.79867 11.5168C8.31323 11.6231 8.57051 11.6763 8.81237 11.6039C9.05422 11.5315 9.24015 11.3456 9.61202 10.9737L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31659 14.7071 8.70711L11.2745 12.1397C10.8954 12.5188 10.7059 12.7083 10.6342 12.9543C10.5624 13.2003 10.6203 13.4614 10.736 13.9837C11.1844 16.0084 11.5738 17.6815 11.9623 18.8071C12.1892 19.4645 12.4445 20.0336 12.7678 20.4533C13.1052 20.8913 13.5642 21.2222 14.1683 21.2489C14.5444 21.2655 14.8571 21.0938 15.0715 20.9344C15.2975 20.7666 15.51 20.5414 15.7071 20.2953C16.1031 19.8005 16.5192 19.1159 16.9332 18.3247C17.7652 16.7347 18.6462 14.6028 19.3917 12.4096C20.1368 10.2173 20.7577 7.9306 21.0568 6.0301C21.206 5.0823 21.2798 4.20207 21.2388 3.46477C21.1999 2.76556 21.0509 2.03106 20.5973 1.54257Z"
+                                fill="#0066FF" />
+                        </svg>
+                        <span>إرسال الملاحظة</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+
+        <div id="TableAdmin" class="adminstration-form">
+            <div class="admin-form-content bg-white position-relative rounded shadow-sm p-3"
+                style="max-width: 500px; margin: auto;">
+                <i class="fa-regular fa-circle-xmark close-form position-absolute"
+                    style="top: 10px; right: 15px; cursor: pointer; font-size: 20px;" onclick="hideTableAdmin2()"></i>
+                <h5 class="text-center mb-4">الإدارات</h5>
+
+                <div class="mt-4">
+                    <table class="table table-hover rounded-3 overflow-hidden text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="col-8 radiusRight2">اسم الإدارة</th>
+                                <th class="col-4 radiusLeft2">حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="h-75">
+                                <td class="radiusRight2">المكتبة</td>
+                                <td class="radiusLeft2">
+                                    <i class="fa-solid fa-trash-can text-danger" style="cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="radiusRight2">رعاية الطلاب</td>
+                                <td class="radiusLeft2">
+                                    <i class="fa-solid fa-trash-can text-danger" style="cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                            <tr class="h-75">
+                                <td class="radiusRight2">المكتبة</td>
+                                <td class="radiusLeft2">
+                                    <i class="fa-solid fa-trash-can text-danger" style="cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="radiusRight2">رعاية الطلاب</td>
+                                <td class="radiusLeft2">
+                                    <i class="fa-solid fa-trash-can text-danger" style="cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div id="administrationForm" class="adminstration-form">
+            <div class="admin-form-content bg-white position-relative">
+                <i class="fa-regular fa-circle-xmark close-form position-absolute "
+                    onclick="hideFormAdministiration()"></i>
+                <h5 class="text-center mb-4">إضافة إدارة</h5>
+
+
+                <form>
+                    <div class="mt-3">
+                        <label class="form-label" for="administrationName">اسم الإدارة</label>
+                        <input type="text" id="administrationName" class="form-control input-boxshadow p-2"
+                            placeholder="قم بإدخال اسم الإدارة">
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label" for="nationalNumber">الرقم القومي</label>
+                        <input type="text" id="nationalNumber" class="form-control input-boxshadow p-2"
+                            placeholder="قم بإدخال الرقم القومي">
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label" for="password">كلمة السر</label>
+                        <input type="text" id="password" class="form-control input-boxshadow p-2"
+                            placeholder="قم بإدخال كلمة السر">
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="submit-form mt-4 animate__animated animate__zoomIn">إضافة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div id="studentForm" class="Form-Add-Student">
+            <div class="addStudent-form-content bg-white position-relative spacing-padding">
+                <i class="fa-regular fa-circle-xmark close-form " onclick="hideFormAddStudent()"></i>
+
+
+                <h5 class="text-center mb-4">إضافة طالب</h5>
+
+                <form>
+
+                    <div class="row mb-md-4 ">
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-user-graduate"></i>
+                            <label class="form-label" for="studentName">اسم الطالب</label>
+                            <input type="text" id="studentName" class="form-control spacing-margin input-boxshadow p-2"
+                                placeholder="اسم الطالب">
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <label class="form-label" for="grade">الصف</label>
+                            <input type="text" id="grade" class="form-control spacing-margin input-boxshadow p-2"
+                                placeholder="الصف">
+                        </div>
+                    </div>
+
+                    <div class="row mb-md-4 ">
+
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-id-card"></i>
+                            <label class="form-label" for="universityNumber">الرقم الجامعي</label>
+                            <input type="text" id="universityNumber"
+                                class="form-control spacing-margin input-boxshadow p-2" placeholder="الرقم الجامعي">
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-id-card"></i>
+                            <label class="form-label" for="nationalNumber">الرقم القومي</label>
+                            <input type="text" id="nationalNumber"
+                                class="form-control spacing-margin input-boxshadow p-2" placeholder="الرقم القومي">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <label class="form-label" for="phone">الهاتف</label>
+                            <input type="text" id="phone" class="form-control spacing-margin input-boxshadow p-2 "
+                                placeholder="الهاتف">
+                        </div>
+                        <div class="col-md-6 ">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <label class="form-label" for="address"> العنوان</label>
+                            <input type="text" id="address" class="form-control input-boxshadow p-2"
+                                placeholder="العنوان">
+                        </div>
+
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="submit-form animate__animated animate__zoomIn">إضافة</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+
+
+        <form class="custom-add-container" id="reportContainer">
+            <div class="custom-add-card shadow-sm p-3 mb-4">
+                <div class="d-flex align-items-center position-relative mb-4">
+                    <i class="fa-regular fa-circle-xmark custom-add-close position-absolute end-0" id="closeReport"></i>
+                    <div class="px-2 py-2 mx-auto" style="color: #BB8536;" id="openReport">
+                        <span class="me-1 ms-1">
+                            <svg width="20" height="16" viewBox="0 0 22 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="me-1">
+                                <path
+                                    d="M8.56146 8.88441C9.54146 9.46141 10.2705 9.75043 10.9995 9.75043C11.7295 9.75043 12.4585 9.46241 13.4395 8.88441L16.3815 7.14438C16.7385 6.93438 16.8564 6.47442 16.6454 6.11742C16.4354 5.76042 15.9755 5.64236 15.6185 5.85336L12.6775 7.59242C11.2035 8.45942 10.7955 8.45942 9.32348 7.59242L6.38148 5.85238C6.02548 5.64138 5.56543 5.76035 5.35443 6.11635C5.14343 6.47235 5.2625 6.9324 5.61849 7.1434L8.56146 8.88441Z"
+                                    fill="#BB8536" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M8.0802 19.2084C9.0622 19.2334 10.0312 19.2465 11.0002 19.2465C11.9692 19.2465 12.9382 19.2334 13.9202 19.2084L13.9216 19.2084C17.1587 19.1264 18.9424 19.0812 20.2872 17.7374C21.6292 16.3844 21.6662 14.6484 21.7332 11.4954C21.7542 10.4884 21.7542 9.51042 21.7332 8.50342C21.6662 5.35042 21.6292 3.6134 20.2842 2.2584C18.9412 0.917398 17.1573 0.871453 13.9193 0.789453C11.9543 0.739453 10.0442 0.739453 8.07923 0.789453L8.07788 0.789487C4.84073 0.871466 3.05705 0.916636 1.71223 2.26045C0.370234 3.61345 0.333238 5.34944 0.266238 8.50244C0.245238 9.50944 0.245238 10.4874 0.266238 11.4944C0.333238 14.6474 0.370262 16.3845 1.71526 17.7395C3.05826 19.0805 4.8422 19.1264 8.0802 19.2084ZM2.77727 16.6794C1.85627 15.7524 1.82726 14.4074 1.76526 11.4624C1.74426 10.4764 1.74426 9.5184 1.76526 8.5334C1.82726 5.5884 1.85625 4.24446 2.77425 3.31846C3.69317 2.39953 5.07899 2.36441 8.11647 2.28742C10.0565 2.23742 11.9423 2.2374 13.8813 2.2874C16.9193 2.3644 18.3053 2.40041 19.2223 3.31641C20.1433 4.24341 20.1722 5.5884 20.2342 8.5334C20.2552 9.5194 20.2552 10.4774 20.2342 11.4624C20.1722 14.4074 20.1432 15.7514 19.2252 16.6774C18.3064 17.5963 16.9208 17.6314 13.884 17.7084L13.8823 17.7084C11.9423 17.7584 10.0573 17.7584 8.11829 17.7084C5.08029 17.6314 3.69427 17.5954 2.77727 16.6794Z"
+                                    fill="#BB8536" />
+                            </svg>
+                        </span>
+                        إرسال ملاحظات
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <svg width="18" height="15" viewBox="0 0 23 22" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill="black" stroke="black" fill-rule="evenodd" clip-rule="evenodd"
+                                d="M10.3803 1.65831C12.8325 0.881105 15.3182 0.249939 16.9998 0.24994C18.5415 0.24994 19.7353 1.48023 20.499 3.00768C21.2852 4.57998 21.7498 6.69961 21.7498 8.99994C21.7498 11.3003 21.2852 13.4199 20.499 14.9922C19.7353 16.5196 18.5415 17.7499 16.9998 17.7499C15.3182 17.7499 12.8325 17.1188 10.3803 16.3416C8.79862 15.8403 7.18928 15.2642 5.74983 14.7204C5.74422 16.6027 6.75739 18.3591 8.41822 19.2733L10.3615 20.343C10.7243 20.5427 10.8566 20.9988 10.6568 21.3617C10.4571 21.7246 10.001 21.8568 9.63813 21.6571L7.69487 20.5874C5.37961 19.3129 4.04638 16.7811 4.27516 14.1525C4.00299 14.0458 3.74151 13.9422 3.49255 13.8427C1.50618 13.0489 0.249795 11.1176 0.249795 8.99994C0.249795 6.88224 1.50618 4.95093 3.49255 4.1572C5.34747 3.41599 7.89793 2.44509 10.3803 1.65831ZM10.8335 3.08821C11.9324 2.73994 12.9951 2.43606 13.9615 2.20628C13.7938 2.45971 13.64 2.72874 13.5005 3.00768C12.7144 4.57998 12.2498 6.69961 12.2498 8.99994C12.2498 11.3003 12.7144 13.4199 13.5005 14.9922C13.64 15.2711 13.7938 15.5402 13.9615 15.7936C12.9951 15.5638 11.9324 15.2599 10.8335 14.9117C8.40075 14.1406 5.88829 13.1847 4.04914 12.4498C2.65225 11.8916 1.7498 10.5256 1.7498 8.99994C1.74979 7.47427 2.65225 6.1083 4.04914 5.55012C5.88829 4.81521 8.40075 3.85926 10.8335 3.08821ZM14.8422 14.3214C15.5262 15.6894 16.3323 16.2499 16.9998 16.2499C17.6672 16.2499 18.4734 15.6894 19.1574 14.3214C19.819 12.9983 20.2498 11.1179 20.2498 8.99994C20.2498 6.88199 19.819 5.00162 19.1574 3.6785C18.4734 2.31051 17.6672 1.74994 16.9998 1.74994C16.3323 1.74994 15.5262 2.31051 14.8422 3.6785C14.1806 5.00162 13.7498 6.88199 13.7498 8.99994C13.7498 11.1179 14.1806 12.9983 14.8422 14.3214Z" />
+                        </svg>
+                        <span class="me-2">الملاحظة موجهة لـ :</span>
+                    </div>
+                    <div class="col-auto">
+                        <input type="checkbox" id="selectAll" class="form-check-input custom-checkbox no-shadow">
+                        <label for="selectAll" class="ms-2 me-1">تحديد الكل</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <textarea class="form-control no-resize mt-2 custom-textarea"
+                        placeholder="الرقم الجامعي الخاص بالطالب المرسل إلية..." name="recipient"></textarea>
+                </div>
+                <div>
+                    <svg width="18" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12.8467 2.2298C15.2273 0.392283 18.3674 -0.0453578 21.1073 0.424962C21.4482 0.48347 21.7049 0.76746 21.7287 1.11247C21.842 2.75368 21.5038 4.03279 20.6118 4.96377C20.0234 5.57794 19.2462 5.98309 18.3491 6.26439C18.3708 6.28981 18.3923 6.31555 18.4136 6.34158C18.7522 6.75628 19.1233 7.36282 19.0361 8.11495C18.9774 8.62122 18.7633 9.00478 18.4441 9.33871C18.1704 9.62494 17.7972 9.89445 17.4026 10.1795L17.3585 10.2113C15.3761 11.6435 13.0782 12.553 10.2154 12.7413C9.71757 13.7043 9.21434 14.8553 8.70505 16.2558C8.56349 16.6451 8.13317 16.8459 7.7439 16.7044C7.35462 16.5628 7.1538 16.1325 7.29536 15.7432C7.94853 13.947 8.60285 12.5173 9.2648 11.3456C9.08533 6.97466 10.5532 4.00003 12.8467 2.2298Z"
+                            fill="#161616" />
+                        <path
+                            d="M10.3002 1.99865C10.301 2.41286 9.96581 2.74925 9.5516 2.75C7.613 2.75349 6.20703 2.78045 5.1294 2.95488C4.0737 3.12576 3.41632 3.42635 2.92161 3.92106C2.38855 4.45413 2.07995 5.17711 1.91722 6.38747C1.75159 7.61941 1.75 9.23929 1.75 11.4997C1.75 13.7602 1.75159 15.38 1.91722 16.612C2.07995 17.8223 2.38855 18.5453 2.92161 19.0784C3.45468 19.6115 4.17766 19.92 5.38802 20.0828C6.61996 20.2484 8.23984 20.25 10.5003 20.25C12.7607 20.25 14.3806 20.2484 15.6125 20.0828C16.8229 19.92 17.5459 19.6115 18.0789 19.0784C18.5736 18.5837 18.8742 17.9263 19.0451 16.8706C19.2196 15.793 19.2465 14.387 19.25 12.4484C19.2507 12.0342 19.5871 11.699 20.0014 11.6998C20.4156 11.7005 20.7507 12.0369 20.75 12.4511C20.7466 14.3649 20.7228 15.8938 20.5259 17.1103C20.3254 18.3486 19.9341 19.3445 19.1396 20.139C18.2814 20.9973 17.1891 21.3843 15.8124 21.5694C14.469 21.75 12.7482 21.75 10.5575 21.75H10.4431C8.25235 21.75 6.5316 21.75 5.18815 21.5694C3.81145 21.3843 2.71917 20.9973 1.86095 20.139C1.00274 19.2808 0.615691 18.1885 0.430599 16.8119C0.249976 15.4684 0.249987 13.7477 0.25 11.5569V11.4426C0.249987 9.25178 0.249976 7.53105 0.430599 6.1876C0.615691 4.8109 1.00274 3.71862 1.86095 2.8604C2.65546 2.0659 3.65135 1.6746 4.88972 1.47415C6.10617 1.27725 7.63507 1.25345 9.5489 1.25C9.96311 1.24926 10.2995 1.58444 10.3002 1.99865Z"
+                            fill="#161616" />
+                    </svg>
+                    <span>الملاحظة المرسلة :</span>
+                </div>
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <textarea style="height: 200px; width: 100%; padding-bottom: 40px;"
+                        class="form-control no-resize mt-2 custom-textarea" placeholder="كتابة النص..."
+                        name="message"></textarea>
+                    <button type="submit"
+                        style="position: absolute; bottom: 10px; left: 10px; display: flex; align-items: center; gap: 5px; color: #0066FF; padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; background: none;">
+                        <svg width="18" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M20.5973 1.54257C20.1299 1.03918 19.397 0.850627 18.6968 0.783141C17.9611 0.712231 17.08 0.759392 16.1313 0.883817C14.2288 1.13337 11.9302 1.71102 9.72221 2.42176C7.51281 3.13295 5.35914 3.98865 3.74626 4.80847C2.94355 5.21648 2.24734 5.62932 1.74121 6.02586C1.48919 6.22331 1.25922 6.436 1.08623 6.66237C0.921234 6.87829 0.747637 7.18549 0.750024 7.55582C0.756292 8.5279 1.41829 9.2149 2.12327 9.67603C2.84284 10.1467 3.77998 10.5014 4.71161 10.7792C5.65324 11.06 6.64346 11.2776 7.49473 11.454C7.55052 11.4655 7.66203 11.4886 7.79867 11.5168C8.31323 11.6231 8.57051 11.6763 8.81237 11.6039C9.05422 11.5315 9.24015 11.3456 9.61202 10.9737L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31659 14.7071 8.70711L11.2745 12.1397C10.8954 12.5188 10.7059 12.7083 10.6342 12.9543C10.5624 13.2003 10.6203 13.4614 10.736 13.9837C11.1844 16.0084 11.5738 17.6815 11.9623 18.8071C12.1892 19.4645 12.4445 20.0336 12.7678 20.4533C13.1052 20.8913 13.5642 21.2222 14.1683 21.2489C14.5444 21.2655 14.8571 21.0938 15.0715 20.9344C15.2975 20.7666 15.51 20.5414 15.7071 20.2953C16.1031 19.8005 16.5192 19.1159 16.9332 18.3247C17.7652 16.7347 18.6462 14.6028 19.3917 12.4096C20.1368 10.2173 20.7577 7.9306 21.0568 6.0301C21.206 5.0823 21.2798 4.20207 21.2388 3.46477C21.1999 2.76556 21.0509 2.03106 20.5973 1.54257Z"
+                                fill="#0066FF" />
+                        </svg>
+                        <span>إرسال الملاحظة</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-borderless table-hover text-center">
+                    <thead class="table-dark animate__animated animate__fadeInUp">
+                        <tr style="height: 63px;" class="">
+                            <th scope="col" class="radiusRight">تحديد</th>
+                            <th scope="col">اسم الطالب</th>
+                            <th scope="col">الفرقة</th>
+                            <th scope="col">كود الطالب</th>
+                            <th scope="col">الرقم القومي</th>
+                            <th scope="col">الهاتف</th>
+                            <th scope="col">العنوان</th>
+                            <th scope="col">الحالة</th>
+                            <th scope="col" class="radiusLeft">الرقم السري</th>
+                        </tr>
+                    </thead>
+                    <tr style="height: 2px;"></tr>
+                    <tbody>
+                        <tr style="height: 63px;" class="animate__animated animate__fadeInUp">
+                            <td class="radiusRight d-flex justify-content-center align-items-center">
+                                <input type="checkbox" class="row-checkbox form-check-input custom-checkbox no-shadow">
+                            </td>
+                            <td>محمد أسامة</td>
+                            <td>الرابعة</td>
+                            <td>٦٢٥٩٤٨</td>
+                            <td>٢٠٣٠١٩٢٠٠٤١٥٢٦</td>
+                            <td>٠١٠٢٥٩٢٦٢٤٩</td>
+                            <td>١٢٣ شارع الرئيسي</td>
+                            <td class="status">غير مكتمل</td>
+                            <td class="radiusLeft">٦٢٥٩٤٨</td>
+                        </tr>
+                        <div class="details-container" id="detailsDiv3">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="text-danger header">غير مكتمل</h6>
+                                    <i class="fa-regular fa-circle-xmark text-danger close-btn"
+                                        onclick="closeDetails3()"></i>
+                                </div>
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex gap-5 mt-2">
+                                        <span>الكتب</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">1500</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex justify-content-start gap-5 mt-2">
+                                        <span>نفقات الكلية</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">35000</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                            </div>
+                        </div>
+                        <tr style="height: 63px;" class="animate__animated animate__fadeInUp">
+                            <td class="radiusRight d-flex justify-content-center align-items-center">
+                                <input type="checkbox" class="row-checkbox form-check-input custom-checkbox no-shadow">
+                            </td>
+                            <td>محمد أسامة</td>
+                            <td>الرابعة</td>
+                            <td>٦٢٥٩٤٨</td>
+                            <td>٢٠٣٠١٩٢٠٠٤١٥٢٦</td>
+                            <td>٠١٠٢٥٩٢٦٢٤٩</td>
+                            <td>١٢٣ شارع الرئيسي</td>
+                            <td class="status">غير مكتمل</td>
+                            <td class="radiusLeft">٦٢٥٩٤٨</td>
+                        </tr>
+                        <div class="details-container" id="detailsDiv3">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="text-danger header">غير مكتمل</h6>
+                                    <i class="fa-regular fa-circle-xmark text-danger close-btn"
+                                        onclick="closeDetails3()"></i>
+                                </div>
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex gap-5 mt-2">
+                                        <span>الكتب</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">1500</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex justify-content-start gap-5 mt-2">
+                                        <span>نفقات الكلية</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">35000</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                            </div>
+                        </div>
+                        <tr style="height: 63px;" class="animate__animated animate__fadeInUp">
+                            <td class="radiusRight d-flex justify-content-center align-items-center">
+                                <input type="checkbox" class="row-checkbox form-check-input custom-checkbox no-shadow">
+                            </td>
+                            <td>محمد أسامة</td>
+                            <td>الرابعة</td>
+                            <td>٦٢٥٩٤٨</td>
+                            <td>٢٠٣٠١٩٢٠٠٤١٥٢٦</td>
+                            <td>٠١٠٢٥٩٢٦٢٤٩</td>
+                            <td>١٢٣ شارع الرئيسي</td>
+                            <td class="status">غير مكتمل</td>
+                            <td class="radiusLeft">٦٢٥٩٤٨</td>
+                        </tr>
+                        <div class="details-container" id="detailsDiv3">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="text-danger header">غير مكتمل</h6>
+                                    <i class="fa-regular fa-circle-xmark text-danger close-btn"
+                                        onclick="closeDetails3()"></i>
+                                </div>
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex gap-5 mt-2">
+                                        <span>الكتب</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">1500</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex justify-content-start gap-5 mt-2">
+                                        <span>نفقات الكلية</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">35000</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                            </div>
+                        </div>
+                        <tr style="height: 63px;" class="animate__animated animate__fadeInUp">
+                            <td class="radiusRight d-flex justify-content-center align-items-center">
+                                <input type="checkbox" class="row-checkbox form-check-input custom-checkbox no-shadow">
+                            </td>
+                            <td>محمد أسامة</td>
+                            <td>الرابعة</td>
+                            <td>٦٢٥٩٤٨</td>
+                            <td>٢٠٣٠١٩٢٠٠٤١٥٢٦</td>
+                            <td>٠١٠٢٥٩٢٦٢٤٩</td>
+                            <td>١٢٣ شارع الرئيسي</td>
+                            <td class="status">غير مكتمل</td>
+                            <td class="radiusLeft">٦٢٥٩٤٨</td>
+                        </tr>
+                        <div class="details-container" id="detailsDiv3">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h6 class="text-danger header">غير مكتمل</h6>
+                                    <i class="fa-regular fa-circle-xmark text-danger close-btn"
+                                        onclick="closeDetails3()"></i>
+                                </div>
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex gap-5 mt-2">
+                                        <span>الكتب</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">1500</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                                <div class="d-flex justify-content-between notes-container">
+                                    <div class="detail-item d-flex justify-content-start gap-5 mt-2">
+                                        <span>نفقات الكلية</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted ms-2">35000</span>
+                                        <button class="custom-btn-delete-note">
+                                            <span class="me-1 ms-1 delete-btn-note">
+                                                <svg width="18" height="18" viewBox="0 0 20 22" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M7 9.98486C6.58579 9.98486 6.25 10.3207 6.25 10.7349C6.25 11.1491 6.58579 11.4849 7 11.4849H13C13.4142 11.4849 13.75 11.1491 13.75 10.7349C13.75 10.3207 13.4142 9.98486 13 9.98486H7Z"
+                                                        fill="#FF0000" />
+                                                    <path
+                                                        d="M8.5 13.9043C8.08579 13.9043 7.75 14.2401 7.75 14.6543C7.75 15.0685 8.08579 15.4043 8.5 15.4043H11.5C11.9142 15.4043 12.25 15.0685 12.25 14.6543C12.25 14.2401 11.9142 13.9043 11.5 13.9043H8.5Z"
+                                                        fill="#FF0000" />
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M10.066 0.250001H10.002C9.49671 0.249987 9.06808 0.249975 8.71239 0.282355C8.33495 0.316717 7.98336 0.39114 7.64338 0.571917C7.5092 0.643262 7.38117 0.725607 7.26059 0.818108C6.95509 1.05248 6.74154 1.34153 6.55372 1.67073C6.37672 1.98095 6.19896 2.37096 5.98939 2.83074L5.57036 3.75H1C0.585786 3.75 0.25 4.08579 0.25 4.5C0.25 4.91422 0.585786 5.25 1 5.25H1.79391L2.35831 14.5991C2.43374 15.8487 2.4936 16.8404 2.61813 17.6325C2.74585 18.4448 2.95119 19.1214 3.36308 19.7133C3.73989 20.2547 4.22534 20.7117 4.78852 21.0552C5.40414 21.4307 6.09183 21.5949 6.91038 21.6734C7.70856 21.75 8.70196 21.75 9.95383 21.75H10.0315C11.2817 21.75 12.2739 21.75 13.0712 21.6736C13.8888 21.5952 14.5757 21.4313 15.1909 21.0565C15.7537 20.7137 16.239 20.2574 16.616 19.7168C17.028 19.126 17.2339 18.4504 17.3626 17.6392C17.4881 16.8482 17.5493 15.8579 17.6265 14.61L18.2051 5.25H19C19.4142 5.25 19.75 4.91422 19.75 4.5C19.75 4.08579 19.4142 3.75 19 3.75H14.5254L14.0339 2.73608C13.819 2.29264 13.6365 1.91616 13.4569 1.61688C13.2662 1.29917 13.0518 1.02075 12.7499 0.795608C12.6306 0.70664 12.5043 0.627499 12.3722 0.558966C12.038 0.385548 11.6939 0.314081 11.3248 0.281071C10.9772 0.249976 10.5588 0.249987 10.066 0.250001ZM12.8585 3.75H7.21885L7.34086 3.48234C7.56746 2.98523 7.71741 2.65798 7.85658 2.41407C7.98868 2.18253 8.08347 2.07739 8.17362 2.00823C8.22842 1.96619 8.28662 1.92876 8.34761 1.89633C8.44793 1.84298 8.58291 1.80035 8.84839 1.77618C9.12805 1.75072 9.48802 1.75 10.0343 1.75C10.5673 1.75 10.9182 1.75069 11.1912 1.77511C11.4502 1.79827 11.5826 1.83916 11.6814 1.89044C11.7415 1.92159 11.7989 1.95756 11.8531 1.99801C11.9424 2.06458 12.0369 2.16588 12.1708 2.38884C12.3118 2.62382 12.4655 2.93926 12.698 3.41888L12.8585 3.75ZM3.85324 14.47L3.29664 5.25H16.7022L16.1317 14.4788C16.0516 15.774 15.9941 16.6925 15.8812 17.4042C15.7702 18.1039 15.6156 18.529 15.3855 18.8589C15.1276 19.2288 14.7956 19.5409 14.4105 19.7755C14.0671 19.9847 13.6332 20.1128 12.928 20.1804C12.2107 20.2492 11.2904 20.25 9.99274 20.25C8.69334 20.25 7.77183 20.2492 7.05363 20.1803C6.34755 20.1126 5.91322 19.9842 5.56959 19.7746C5.18426 19.5396 4.8521 19.2269 4.59429 18.8564C4.36437 18.5261 4.2101 18.1002 4.09993 17.3995C3.98788 16.6868 3.93155 15.767 3.85324 14.47Z"
+                                                        fill="#FF0000" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr class="extra-info">
+                            </div>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="pagination-container">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous" onclick="changePage('prev')">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#" id="page1">1</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="page2">2</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="page3">3</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="page4">4</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="page5">5</a></li>
+                <li class="page-item"><a class="page-link" href="#" id="page6">6</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next" onclick="changePage('next')">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("selectAll").addEventListener("change", function () {
+                    let checkboxes = document.querySelectorAll(".row-checkbox");
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.checked = this.checked;
+                    });
+                });
+
+                document.querySelectorAll("tbody > tr").forEach((row, index) => {
+                    let statusCell = row.querySelector(".status");
+                    if (statusCell && statusCell.innerText.trim() === "غير مكتمل") {
+                        statusCell.style.color = "red";
+                        statusCell.style.cursor = "pointer";
+                        statusCell.addEventListener("click", openDetails3);
+                    }
+                    if (index % 2 === 0) {
+                        row.classList.add("table-warning");
+                    }
+                });
+
+                // Initialize Pagination
+                renderTable();
+                renderPagination();
+            });
+
+            let currentPage = 1;
+            const rowsPerPage = 10;
+            let rows = document.querySelectorAll("tbody tr");
+
+            function renderTable() {
+                rows.forEach((row, index) => {
+                    row.style.display = (index >= (currentPage - 1) * rowsPerPage &&
+                        index < currentPage * rowsPerPage) ? "" : "none";
+                });
+            }
+
+            function renderPagination() {
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+                const pagination = document.querySelector(".pagination");
+                pagination.innerHTML = ""; // Clear existing pagination
+
+                // Previous Button
+                pagination.innerHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous" onclick="changePage('prev')">
+                    <span aria-hidden="true">«</span>
+                </a>
+            </li>
+        `;
+
+                // Dynamic Page Numbers with Ellipsis
+                const maxVisiblePages = 5; // Show 5 page numbers at a time
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                // Adjust startPage if endPage is at the limit
+                if (endPage - startPage + 1 < maxVisiblePages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+
+                // Add ellipsis if there are pages before startPage
+                if (startPage > 1) {
+                    pagination.innerHTML += `
+                <li class="page-item"><a class="page-link" href="#" onclick="changePageTo(1)">1</a></li>
+            `;
+                    if (startPage > 2) {
+                        pagination.innerHTML += `<li class="page-item"><span class="page-link">...</span></li>`;
+                    }
+                }
+
+                // Generate page numbers
+                for (let i = startPage; i <= endPage; i++) {
+                    pagination.innerHTML += `
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="changePageTo(${i})">${i}</a>
+                </li>
+            `;
+                }
+
+                // Add ellipsis if there are pages after endPage
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        pagination.innerHTML += `<li class="page-item"><span class="page-link">...</span></li>`;
+                    }
+                    pagination.innerHTML += `
+                <li class="page-item"><a class="page-link" href="#" onclick="changePageTo(${totalPages})">${totalPages}</a></li>
+            `;
+                }
+
+                // Next Button
+                pagination.innerHTML += `
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" onclick="changePage('next')">
+                    <span aria-hidden="true">»</span>
+                </a>
+            </li>
+        `;
+
+                // Style the active page
+                const activeLink = pagination.querySelector(".page-item.active .page-link");
+                if (activeLink) {
+                    activeLink.style.backgroundColor = "black";
+                    activeLink.style.color = "white";
+                    activeLink.style.borderRadius = "50%";
+                    activeLink.style.width = "30px";
+                    activeLink.style.height = "30px";
+                    activeLink.style.display = "flex";
+                    activeLink.style.alignItems = "center";
+                    activeLink.style.justifyContent = "center";
+                    activeLink.style.fontSize = "14px";
+                }
+            }
+
+            function changePage(direction) {
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+                if (direction === "next" && currentPage < totalPages) currentPage++;
+                else if (direction === "prev" && currentPage > 1) currentPage--;
+                renderTable();
+                renderPagination();
+            }
+
+            function changePageTo(page) {
+                currentPage = page;
+                renderTable();
+                renderPagination();
+            }
+
+            /* function toggleDetails(statusElement) {
+                 if (statusElement.textContent.trim() !== "غير مكتمل") return;
+ 
+                 let detailsDiv = document.getElementById("detailsDiv");
+                 let rect = statusElement.getBoundingClientRect();
+ 
+                 detailsDiv.style.position = "absolute";
+                 detailsDiv.style.top = `${rect.bottom}px`;
+                 detailsDiv.style.left = `${rect.left}px`;
+                 detailsDiv.style.display = "block";
+             } */
+
+
+            // Show , Hide AddministrationForm
+            function showFormAdministration() {
+                let div = document.getElementById("administrationForm");
+                div.style.display = "flex";
+                div.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => {
+                    div.classList.remove('animate__animated', 'animate__fadeInUp');
+                }, 500);
+            }
+
+            function hideFormAdministiration() {
+                let div = document.getElementById("administrationForm");
+                div.classList.add('animate__animated', 'animate__fadeOutDown');
+
+                setTimeout(() => {
+                    div.style.display = 'none';
+                    div.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+
+
+            // Show , Hide AddStudentForm
+            function showFormAddStudent() {
+                let studentForm = document.getElementById("studentForm");
+                studentForm.style.display = "flex";
+                studentForm.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => {
+                    studentForm.classList.remove('animate__animated', 'animate__fadeInUp');
+                }, 500);
+            }
+
+            function hideFormAddStudent() {
+                let studentForm = document.getElementById("studentForm");
+                studentForm.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    studentForm.style.display = 'none';
+                    studentForm.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+
+
+
+
+            function showTableAdmin2() {
+                let tableAdmin = document.getElementById("TableAdmin");
+                tableAdmin.style.display = "flex";
+                tableAdmin.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => {
+                    tableAdmin.classList.remove('animate__animated', 'animate__fadeInUp');
+                }, 500);
+            }
+
+            function hideTableAdmin2() {
+                let tableAdmin = document.getElementById("TableAdmin");
+                tableAdmin.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    tableAdmin.style.display = 'none';
+                    tableAdmin.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+
+
+
+            function closeDetails() {
+                let detailsDiv = document.getElementById("detailsDiv");
+                detailsDiv.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    detailsDiv.style.display = 'none';
+                    detailsDiv.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+            function closeDetails2() {
+                let detailsDiv = document.getElementById("detailsDiv2");
+                detailsDiv.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    detailsDiv.style.display = 'none';
+                    detailsDiv.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+            function toggleDetails2() {
+                const detailsDiv = document.getElementById("detailsDiv2");
+                detailsDiv.style.display = "block";
+                detailsDiv.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => {
+                    detailsDiv.classList.remove('animate__animated', 'animate__fadeInUp');
+                }, 500);
+            }
+
+            function openDetails3(event) {
+                let detailsDiv = document.getElementById("detailsDiv3");
+                let clickedCell = event.target.getBoundingClientRect();
+                detailsDiv.style.top = `${window.scrollY + clickedCell.bottom - 30}px`;
+                detailsDiv.style.left = `${window.scrollX + clickedCell.left - 60}px`;
+                detailsDiv.style.display = "block";
+
+                // Reset any previous transform
+                detailsDiv.style.opacity = "0";
+                detailsDiv.style.transform = "translateY(10px)";
+
+                // Trigger reflow to apply transition
+                void detailsDiv.offsetWidth;
+
+                // Apply visible styles with transition
+                detailsDiv.style.transition = "all 0.5s ease-out"; // ثابتة وسريعة
+                detailsDiv.style.opacity = "1";
+                detailsDiv.style.transform = "translateY(0)";
+            }
+
+
+            function closeDetails3() {
+                let detailsDiv = document.getElementById("detailsDiv3");
+                detailsDiv.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    detailsDiv.style.display = 'none';
+                    detailsDiv.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            }
+
+            document.getElementById("openReport").addEventListener("click", function () {
+                const div = document.getElementById("reportContainer");
+                div.style.display = "flex";
+                div.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => {
+                    div.classList.remove('animate__animated', 'animate__fadeInUp');
+                }, 500);
+            });
+
+            document.getElementById("closeReport").addEventListener("click", function () {
+                const div = document.getElementById("reportContainer");
+                div.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    div.style.display = 'none';
+                    div.classList.remove('animate__animated', 'animate__fadeOutDown');
+                }, 500);
+            });
+
+            function toggleFilter(element) {
+                element.classList.toggle("activeFilter");
+            }
+
+
+
+
+
+
+
+
+
+
+
+            document.addEventListener("click", function (event) {
+                let detailsDiv = document.getElementById("detailsDiv3");
+                if (!detailsDiv.contains(event.target) && !event.target.classList.contains("status")) {
+                    detailsDiv.style.display = "none";
+                }
+            });
+
+
+
+
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const deleteIcons = document.querySelectorAll(".fa-trash-can");
+
+                deleteIcons.forEach(icon => {
+                    icon.addEventListener("click", () => {
+                        Swal.fire({
+                            position: 'top',
+                            width: '350px',
+                            title: 'هل أنت متأكد؟',
+                            text: "لا يمكنك التراجع عن هذا الحذف!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'نعم، احذفها!',
+                            cancelButtonText: 'إلغاء'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    width: '350px',
+                                    title: 'تم الحذف!',
+                                    text: 'تم حذف الإدارة بنجاح.',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                const row = icon.closest("tr");
+                                row.remove();
+                            }
+                        });
+
+                    });
+                });
+            });
+
+
+
+
+            document.querySelectorAll('.delete-btn-note').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const itemContainer = this.closest('.notes-container');
+                    if (!itemContainer) return;
+
+                    // Find the next sibling element (not child)
+                    const nextSibling = itemContainer.nextElementSibling;
+
+                    // Apply animation classes
+                    itemContainer.classList.add('slide-out');
+                    if (nextSibling) {
+                        nextSibling.classList.add('slide-out');
+                    }
+
+                    // Wait for animation to complete, then remove
+                    setTimeout(() => {
+                        itemContainer.remove();
+                        if (nextSibling) {
+                            nextSibling.remove();
+                        }
+                    }, 500); // Match transition time
+                });
+            });
+
+
+
+            // Store selected filters
+            let selectedFilters = {
+                status: [],
+                grade: [],
+                college: []
+            };
+
+            function toggleFilter(element) {
+                const filterType = element.getAttribute('data-filter');
+                const filterValue = element.getAttribute('data-value');
+
+                // Toggle selection visual
+                element.classList.toggle('selected');
+
+                // Update selectedFilters object
+                if (element.classList.contains('selected')) {
+                    if (filterType === 'status') {
+                        // For status, only allow single selection
+                        selectedFilters.status = [filterValue];
+                        // Remove selection from other status items
+                        document.querySelectorAll('[data-filter="status"]').forEach(item => {
+                            if (item !== element) {
+                                item.classList.remove('selected');
+                            }
+                        });
+                    } else {
+                        // For grade and college, allow multiple selections
+                        if (!selectedFilters[filterType].includes(filterValue)) {
+                            selectedFilters[filterType].push(filterValue);
+                        }
+                    }
+                } else {
+                    // Remove from selection
+                    selectedFilters[filterType] = selectedFilters[filterType].filter(item => item !== filterValue);
+                }
+
+                // Update hidden inputs
+                updateHiddenInputs();
+            }
+
+            function updateHiddenInputs() {
+                document.getElementById('selectedStatus').value = selectedFilters.status.join(',');
+                document.getElementById('selectedGrades').value = selectedFilters.grade.join(',');
+                document.getElementById('selectedColleges').value = selectedFilters.college.join(',');
+            }
+
+            function applyFilters() {
+                // Update hidden inputs before sending
+                updateHiddenInputs();
+
+                // Create FormData object
+                const formData = new FormData();
+                formData.append('Status', selectedFilters.status.join(','));
+                formData.append('Grades', selectedFilters.grade.join(','));
+                formData.append('Colleges', selectedFilters.college.join(','));
+
+                console.log('Selected Filters:', selectedFilters);
+
+                // Option 1: Send via AJAX
+                fetch('/Home/ApplyFilters', { // Change this URL to match your controller/action
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Filters applied successfully:', data);
+                        // Handle the response here
+                        // For example, update the page content or redirect
+                    })
+                    .catch(error => {
+                        console.error('Error applying filters:', error);
+                    });
+
+                // Option 2: Traditional form submission (uncomment if you prefer this method)
+                /*
+                const form = document.getElementById('filterForm');
+                form.action = '/Home/ApplyFilters'; // Set your controller/action URL
+                form.method = 'POST';
+                form.submit();
+                */
+            }
+
+            function resetFilters() {
+                // Clear all selections
+                selectedFilters = {
+                    status: [],
+                    grade: [],
+                    college: []
+                };
+
+                // Remove visual selections
+                document.querySelectorAll('.clickable.selected').forEach(item => {
+                    item.classList.remove('selected');
+                });
+
+                // Clear hidden inputs
+                updateHiddenInputs();
+            }
+        </script>
+</body>
+
+</html>
