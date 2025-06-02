@@ -21,6 +21,7 @@
   * [Nonfunctional Requirements](#nonfunctional-requirements)
 * [Technologies Used](#technologies-used)
 * [Responsive Design](#responsive-design)
+* [Videos & Photos](#videos--photos)
 * [Live Deployment](#live-deployment)
 
 ---
